@@ -16,7 +16,8 @@ def get_serp_results(keyword_argument):
 	    return word_count
 
 	df = seo.get_serps(keyword_argument)
-	word_count = [get_word_count(element) for element in df["link"]]
+	df.columns = ["Page Title", "URL", "Text"]
+	word_count = [get_word_count(element) for element in df["URL"]]
 	df["Word Count <p>"] = word_count
 	return df
 
@@ -28,3 +29,4 @@ with st.form(key='my_form'):
 
 if submit_button:
 	st.table(get_serp_results(keyword))
+	st.table(seo.google_autocomplete(keyword, include_expanded=True))
