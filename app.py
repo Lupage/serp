@@ -28,5 +28,7 @@ with st.form(key='my_form'):
 	submit_button = st.form_submit_button(label='Get SERP Results')
 
 if submit_button:
+	st.header("***SERP Results***")
 	st.table(get_serp_results(keyword))
+	st.header("***Related Keywords***")
 	st.table(seo.google_autocomplete(keyword, include_expanded=True))
