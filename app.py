@@ -27,8 +27,10 @@ def get_serp_results(keyword_argument):
 	df.columns = ["Page Title", "URL", "Text"]
 	word_count = [get_word_count(element) for element in df["URL"]]
 	df["Word Count <p>"] = word_count
-	content = [get_content(element) for element in df["URL"]]
-	df["Excerpt <p>"] = content
+	keyword_in_title = [keyword_argument.lower() in element.lower() for element in df["Page Title"]]
+	df["Is Keyword in Page Title?"] = keyword_in_title
+# 	content = [get_content(element) for element in df["URL"]]
+# 	df["Excerpt <p>"] = content
 	return df
 
 st.title("*Google Search Results*")
