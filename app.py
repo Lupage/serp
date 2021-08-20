@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from ecommercetools import seo
+from difflib import SequenceMatcher
 import streamlit as st
 import pandas as pd
 import requests
@@ -24,11 +25,14 @@ def get_serp_results(keyword_argument):
 	    return content
 
 	df = seo.get_serps(keyword_argument)
-	df.columns = ["Page Title", "URL", "Text"]
+	df.columns = ["Page Title", "URL", "Description From SERP"]
 	word_count = [get_word_count(element) for element in df["URL"]]
 	df["Word Count <p>"] = word_count
 	keyword_in_title = [keyword_argument.lower() in element.lower() for element in df["Page Title"]]
 	df["Is Keyword in Page Title?"] = keyword_in_title
+	matcher = [SequenceMatcher(None, keyword_argument.lower(), element.lower()).ratio()*100 for element in df["Page Title"]]
+	matcher = [str("{:.2f}".format(element))+"%" for element in matcher]
+	df["How Identical is Page Title to Keyword?"] = matcher
 # 	content = [get_content(element) for element in df["URL"]]
 # 	df["Excerpt <p>"] = content
 	return df
