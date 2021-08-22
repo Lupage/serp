@@ -1,10 +1,12 @@
 from bs4 import BeautifulSoup
 from ecommercetools import seo
 from difflib import SequenceMatcher
+from w3lib.html import get_base_url
 import streamlit as st
 import pandas as pd
 import requests
 import re
+import extruct
 
 st.set_page_config(layout="wide", page_title="Google Search Results of a Keyword")
 
