@@ -33,5 +33,5 @@ class Page:
         soup = BeautifulSoup(page_source, 'html.parser')
         paragraph_list = [element.text for element in soup.find_all('p')]
         content = " ".join(paragraph_list)
-        polarity = TextBlob(content).sentiment.subjectivity
+        subjectivity = TextBlob(content).sentiment.subjectivity
         return subjectivity
