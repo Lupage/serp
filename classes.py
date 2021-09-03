@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from textblob import TextBlob
 import requests
 
 class Page:
@@ -18,3 +19,19 @@ class Page:
         paragraph_list = [element.text for element in soup.find_all('p')]
         content = " ".join(paragraph_list)
         return content
+    
+    def polarity(self):
+        page_source = requests.get(self.url).text
+        soup = BeautifulSoup(page_source, 'html.parser')
+        paragraph_list = [element.text for element in soup.find_all('p')]
+        content = " ".join(paragraph_list)
+        polarity = TextBlob(content).sentiment.polarity
+        return polarity
+    
+    def subjectivity(self):
+        page_source = requests.get(self.url).text
+        soup = BeautifulSoup(page_source, 'html.parser')
+        paragraph_list = [element.text for element in soup.find_all('p')]
+        content = " ".join(paragraph_list)
+        polarity = TextBlob(content).sentiment.subjectivity
+        return subjectivity
