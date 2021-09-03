@@ -33,7 +33,7 @@ with st.form(key='my_form'):
 if submit_button:
 	df = get_serp_results(keyword)
 	st.header(f"***SERP Results for '{keyword}'***")
-	st.table(df[["Page Title", "URL", "Word Count <p>", "Is Keyword in Page Title?", "How Identical is Page Title to Keyword?"]])
+	st.table(df[["Page Title", "URL", "Word Count <p>", "Is Keyword in Page Title?", "How Identical is Page Title to Keyword?", "Sentiment", "Subjectivity"]])
 	st.header("***Related Keywords***")
 	autocomplete_df = seo.google_autocomplete(keyword, include_expanded=True)
 	st.table(autocomplete_df)
