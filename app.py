@@ -18,6 +18,10 @@ def get_serp_results(keyword_argument):
 	matcher = [SequenceMatcher(None, keyword_argument.lower(), element.lower()).ratio()*100 for element in df["Page Title"]]
 	matcher = [str("{:.2f}".format(element))+"%" for element in matcher]
 	df["How Identical is Page Title to Keyword?"] = matcher
+	sentiment = [Page(element).polarity() for element in df["URL"]]
+	df["Sentiment"] = sentiment
+	subjectivity = [Page(element).subjectivity() for element in df["URL"]]
+	df["Subjectivity"] = subjectivity
 	return df
 
 st.title("*Google Search Results*")
