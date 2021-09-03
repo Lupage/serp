@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from classes import Page
 from ecommercetools import seo
 from difflib import SequenceMatcher
 import pandas as pd
@@ -8,18 +8,10 @@ import streamlit as st
 
 st.set_page_config(layout="wide", page_title="Google Search Results of a Keyword")
 
-def get_word_count(argument):
-	full_url = argument
-	page_source = requests.get(full_url).text
-	soup = BeautifulSoup(page_source, 'lxml')
-	paragraph_list = [element.text for element in soup.find_all('p')]
-	word_count = len(str(paragraph_list).split())
-	return word_count
-
 def get_serp_results(keyword_argument):
 	df = seo.get_serps(keyword_argument)
 	df.columns = ["Page Title", "URL", "Description From SERP"]
-	word_count = [get_word_count(element) for element in df["URL"]]
+	word_count = [Page(element).word_count() for element in df["URL"]]
 	df["Word Count <p>"] = word_count
 	keyword_in_title = [keyword_argument.lower() in element.lower() for element in df["Page Title"]]
 	df["Is Keyword in Page Title?"] = keyword_in_title
