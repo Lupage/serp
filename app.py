@@ -17,7 +17,7 @@ def get_word_count(url_argument):
 
 def get_serp_results(keyword_argument):
 	df = seo.get_serps(keyword_argument)
-	df.columns = ["Page Title", "URL", "Description From SERP"]
+	df.columns = ["Position","Page Title", "URL", "Description From SERP"]
 	word_count = [get_word_count(element) for element in df["URL"]]
 	df["Word Count <p>"] = word_count
 	keyword_in_title = [keyword_argument.lower() in element.lower() for element in df["Page Title"]]
@@ -36,10 +36,8 @@ with st.form(key='my_form'):
 if submit_button:
 	df = get_serp_results(keyword)
 	st.header(f"***SERP Results for '{keyword}'***")
-	serp_results = df[["Page Title", "URL", "Word Count <p>", "Is Keyword in Page Title?", "How Identical is Page Title to Keyword?"]]
+	serp_results = df[["Position", "Page Title", "URL", "Word Count <p>", "Is Keyword in Page Title?", "How Identical is Page Title to Keyword?"]]
 	st.table(serp_results)
-	st.header("***Content Information***")
-	st.table(df[["URL","Microdata"]])
 	st.header("***Related Keywords***")
 	keyword_df = seo.google_autocomplete(keyword, include_expanded=True)
 	st.table(keyword_df)
